@@ -8,14 +8,17 @@ const Menus = [
   {
     href: '/',
     text: '홈',
+    icon: 'fa-home',
   },
   {
     href: '/reservation',
-    text: '예약',
+    text: '나의 진료',
+    icon: 'fa-note-medical',
   },
   {
     href: '/profile',
     text: '마이페이지',
+    icon: 'fa-user',
   },
 ];
 // Component
@@ -25,7 +28,7 @@ export default function TabBar({}: Props) {
       <ul role={'tablist'} className={styles.tabList}>
         {Menus.map((m) => (
           <li role={'presentation'} key={m.href}>
-            <TabButton text={m.text} icon={'fa-solid fa-house'} href={m.href} />
+            <TabButton text={m.text} icon={m.icon} href={m.href} />
           </li>
         ))}
       </ul>
