@@ -1,0 +1,13 @@
+.wrapper {
+  width: 100%;
+}
+.wrapper * {
+  list-style: none;
+}
+
+.tabList {
+  display: flex;
+  justify-content: space-between;
+}
+
+/*# sourceMappingURL=index.module.css.map */
