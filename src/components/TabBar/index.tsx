@@ -27,9 +27,7 @@ export default function TabBar({}: Props) {
     <nav aria-label={'주 메뉴'} className={styles.wrapper}>
       <ul role={'tablist'} className={styles.tabList}>
         {Menus.map((m) => (
-          <li role={'presentation'} key={m.href}>
-            <TabButton text={m.text} icon={m.icon} href={m.href} />
-          </li>
+          <TabButton key={m.href} text={m.text} icon={m.icon} href={m.href} />
         ))}
       </ul>
     </nav>
