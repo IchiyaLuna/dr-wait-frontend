@@ -13,11 +13,13 @@ export default function TabButton({ text, icon, href }: Props) {
   const pathname = usePathname();
   // Render
   return (
-    <Link role={'tab'} href={href} className={styles.tab}>
-      <i
-        className={`${styles.icon} ${icon} ${pathname === href ? 'fa-regular' : 'fa-solid'}`}
-      ></i>
-      <span className={styles.text}>{text}</span>
-    </Link>
+    <li role={'presentation'} className={styles.wrapper}>
+      <Link role={'tab'} href={href} className={styles.tab}>
+        <i
+          className={`${styles.icon} ${icon} ${pathname === href ? 'fa-solid' : 'fa-regular'}`}
+        ></i>
+        <span className={styles.text}>{text}</span>
+      </Link>
+    </li>
   );
 }
