@@ -1,5 +1,6 @@
 .wrapper {
   width: 100%;
+  border-top: 1px solid var(--color-gray-200);
 }
 .wrapper * {
   list-style: none;
@@ -7,7 +8,6 @@
 
 .tabList {
   display: flex;
-  justify-content: space-between;
 }
 
 /*# sourceMappingURL=index.module.css.map */
