@@ -1,9 +1,53 @@
 @use "tailwindcss";
 @use '@/assets/styles/fa-all';
 
-* {
-  padding: 0;
-  margin: 0;
+/** RESET **/
+@layer base {
+  html {
+    box-sizing: border-box;
+  }
+
+  *, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+  }
+
+  body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img,
+  picture,
+  video,
+  canvas,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  input,
+  button,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  button {
+    all: unset;
+    cursor: pointer;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  ul,
+  ol {
+    list-style: none;
+  }
 }
 
 html,
@@ -11,19 +55,4 @@ body {
   height: 100%;
   max-width: 100vw;
   overflow-x: hidden;
-}
-
-body {
-  background-color: var(--color-rose-50);
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-button {
-  all: unset;
-  box-sizing: border-box;
-  cursor: pointer;
 }
