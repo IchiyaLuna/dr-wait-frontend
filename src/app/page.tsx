@@ -1,7 +1,15 @@
+// React
+import React from 'react';
+// Components
+import TopBar from '@/components/TopBar';
+import ProfileCard from '@/components/ProfileCard';
 import TabBar from '@/components/TabBar';
 // Styles
 import styles from './page.module.scss';
-import React from 'react';
+import Card from '@/components/Card';
+import SectionTitle from '@/components/SectionTitle';
+import RowScroll from '@/components/RowScroll';
+import Row from '@/components/Row';
 // Data
 const departments = [
   {
@@ -28,30 +36,22 @@ const departments = [
 export default function HomePage() {
   return (
     <>
+      <TopBar />
       <main className={styles.main}>
-        {/* Profile */}
-        <div className="p-4 bg-white border border-gray-300 rounded-3xl">
-          <div className="text-2xl mb-2">안녕하세요 정연재님</div>
-          <div className="text-base">최근 진료는 5월 12일입니다.</div>
-        </div>
-
-        {/* Buttons */}
-        <div className="flex justify-between items-center">
-          <div className="py-4 pl-7 pr-6 bg-white border border-gray-300 rounded-2xl">
-            동네 인기 병원 🔥
-          </div>
-          <div className="py-4 pl-7 pr-6 bg-white border border-gray-300 rounded-2xl">
-            지금 문연 병원 🛋️
-          </div>
-        </div>
-
+        <ProfileCard />
+        <Row>
+          <Card>동네 인기 병원 🔥</Card>
+          <Card>지금 문연 병원 🛋️</Card>
+        </Row>
         {/* search */}
-        <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-          <span role="img" aria-label="hospital">
-            🏥
-          </span>
-          진료과로 병원 찾기{' '}
-        </h2>
+        <SectionTitle>🏥 진료과로 병원 찾기</SectionTitle>
+        <RowScroll>
+          <div className={styles.tempCard}>abc</div>
+          <div className={styles.tempCard}>abc</div>
+          <div className={styles.tempCard}>abc</div>
+          <div className={styles.tempCard}>abc</div>
+          <div className={styles.tempCard}>abc</div>
+        </RowScroll>
         <div className="flex overflow-x-auto gap-4 scrollbar-hide">
           {departments.map((dept, index) => (
             <div
@@ -65,6 +65,18 @@ export default function HomePage() {
             </div>
           ))}
         </div>
+        <div className={styles.component}>MyPage</div>
+        <div className={styles.component}>MyPage</div>
+        <div className={styles.component}>MyPage</div>
+        <div className={styles.component}>MyPage</div>
+        <div className={styles.component}>MyPage</div>
+        <div className={styles.component}>MyPage</div>
+        <div className={styles.component}>MyPage</div>
+        <div className={styles.component}>MyPage</div>
+        <div className={styles.component}>MyPage</div>
+        <div className={styles.component}>MyPage</div>
+        <div className={styles.component}>MyPage</div>
+        <div className={styles.component}>MyPage</div>
       </main>
       <TabBar />
     </>
