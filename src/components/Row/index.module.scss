@@ -1,0 +1,8 @@
+.row {
+  display: flex;
+  gap: 1rem;
+
+  > div {
+    flex-grow: 1;
+  }
+}
