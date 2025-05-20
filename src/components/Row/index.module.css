@@ -1,0 +1,9 @@
+.row {
+  display: flex;
+  gap: 1rem;
+}
+.row > div {
+  flex-grow: 1;
+}
+
+/*# sourceMappingURL=index.module.css.map */
