@@ -1,13 +1,18 @@
-@use "tailwindcss";
+@use 'tailwindcss';
 @use '@/assets/styles/fa-all';
 
 /** RESET **/
 @layer base {
   html {
+    display: flex;
+    justify-content: center;
     box-sizing: border-box;
+    overflow: hidden;
   }
 
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     margin: 0;
     padding: 0;
     box-sizing: inherit;
