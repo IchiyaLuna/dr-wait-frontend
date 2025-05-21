@@ -6,12 +6,13 @@ import useGeolocation from '@/hooks/useGeolocation';
 // Components
 import TopBar from '@/components/TopBar';
 import TabBar from '@/components/TabBar';
+import RowScroll from '@/components/RowScroll';
+// Data
+import { Keyword, searchKeywords } from '@/data/searchKeywords';
 // Types
 import { KeywordResult, SearchResult } from '@/types/kakao/maps/search';
 // Styles
 import styles from './page.module.scss';
-import { Keyword, keyword, searchKeywords } from '@/data/searchKeywords';
-import RowScroll from '@/components/RowScroll';
 // Page
 export default function RecommendPage() {
   // Hooks
@@ -20,6 +21,7 @@ export default function RecommendPage() {
   const mapEl = useRef<HTMLDivElement>(null);
   const pendingRef = useRef(0);
   // States
+  const [isPanelExpanded, setIsPanelExpanded] = useState<boolean>(false);
   const [map, setMap] = useState<kakao.maps.Map | undefined>(undefined);
   const [currentLocation, setCurrentLocation] = useState<{
     latitude: number;
@@ -29,8 +31,8 @@ export default function RecommendPage() {
   const [keywordResultState, setKeywordResultState] = useState<
     'WAITING' | 'SUCCESS' | 'ERROR'
   >('WAITING');
-  const [keyword, setKeyword] = useState<string>('');
   const [category, setCategory] = useState<string>('');
+  const [markers, setMarkers] = useState<kakao.maps.Marker[]>([]);
   // Current Geolocation updater
   useEffect(() => {
     if (!location) return;
@@ -77,7 +79,7 @@ export default function RecommendPage() {
     // Move map to current location
     map.setCenter(currentLatLng);
   }, [map, currentLocation]);
-  //
+  // Keywords search
   useEffect(() => {
     if (!map) return;
     if (!currentLocation) return;
@@ -111,7 +113,7 @@ export default function RecommendPage() {
               },
             ]);
           } else {
-            // Set keywordResults state
+            // Set keywordResults state on failed
             setKeywordResults((prev) => [
               ...prev,
               {
@@ -121,8 +123,9 @@ export default function RecommendPage() {
               },
             ]);
           }
-
+          // Pending counter decrease
           pendingRef.current -= 1;
+          // No pending search left
           if (pendingRef.current === 0) {
             setKeywordResults((prev) =>
               [...prev].sort(
@@ -136,66 +139,51 @@ export default function RecommendPage() {
         },
         {
           useMapCenter: true,
-          radius: 1000,
+          radius: 300,
         }
       );
     });
   }, [map, currentLocation, keywordResultState]);
+  // Default category selector
   useEffect(() => {
     if (keywordResultState !== 'SUCCESS') return;
+    // Set first result as default selection
     setCategory(keywordResults[0].name);
   }, [keywordResults, keywordResultState]);
+  // Pin
   useEffect(() => {
     if (!map) return;
-    if (!keyword.length) return;
-    const ps = new kakao.maps.services.Places(map);
-
-    ps.keywordSearch(keyword, placesSearchCB, {
-      useMapCenter: true,
-      radius: 1000,
-    });
-
-    function placesSearchCB(
-      data: SearchResult[],
-      status: kakao.maps.services.Status,
-      pagination: kakao.maps.services.Pagination
-    ) {
-      if (!map) return;
-      if (status === kakao.maps.services.Status.OK) {
-        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-        // LatLngBounds 객체에 좌표를 추가합니다
-        const bounds = new kakao.maps.LatLngBounds();
-
-        for (let i = 0; i < data.length; i++) {
-          displayMarker(data[i]);
-          bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
-          console.log(data[i]);
-          console.log(pagination);
-        }
-
-        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-        map.setBounds(bounds);
-      }
-    }
-
-    function displayMarker(place) {
-      if (!map) return;
-      // 마커를 생성하고 지도에 표시합니다
+    if (!category) return;
+    // Find result by category and set marker
+    (
+      keywordResults.find((results) => results.name === category)?.results ?? []
+    ).map((r) => {
       const marker = new kakao.maps.Marker({
         map: map,
-        position: new kakao.maps.LatLng(place.y, place.x),
+        position: new kakao.maps.LatLng(r.y, r.x),
       });
-    }
-  }, [map, keyword]);
-
+      setMarkers((prev) => [...prev, marker]);
+    });
+  }, [category, keywordResults, map]);
+  // Render
   return (
     <>
       <TopBar />
       <main className={styles.main}>
         <div ref={mapEl} className={styles.map}></div>
-        <div className={styles.panel}>
-          <span>할일 추천</span>
-          <RowScroll style={{ gap: '0.5rem' }}>
+        <div
+          className={[styles.panel, isPanelExpanded && styles.expanded]
+            .filter(Boolean)
+            .join(' ')}
+        >
+          <button onClick={() => setIsPanelExpanded(!isPanelExpanded)}>
+            {isPanelExpanded ? (
+              <i className={'fa-solid fa-chevron-down'} />
+            ) : (
+              <i className={'fa-solid fa-chevron-up'} />
+            )}
+          </button>
+          <RowScroll className={styles.keywordList}>
             {keywordResults.length ? (
               keywordResults.map((result) => (
                 <button
@@ -207,6 +195,10 @@ export default function RecommendPage() {
                     .filter(Boolean)
                     .join(' ')}
                   onClick={() => {
+                    markers.map((marker) => {
+                      marker.setMap(null);
+                    });
+                    setMarkers([]);
                     setCategory(result.name);
                   }}
                 >
@@ -218,16 +210,16 @@ export default function RecommendPage() {
               <div>대기중</div>
             )}
           </RowScroll>
-          <div>
+          <div className={styles.placeList}>
             {category &&
               (
                 keywordResults.find((results) => results.name === category)
                   ?.results ?? []
               ).map((r) => (
-                <div key={r.id}>
+                <button key={r.id}>
                   <span>{r.place_name}</span>
-                  <span>{r.distance}</span>
-                </div>
+                  <span>{r.distance}m</span>
+                </button>
               ))}
           </div>
         </div>
