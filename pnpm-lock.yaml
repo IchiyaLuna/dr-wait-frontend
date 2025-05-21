@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@types/kakaomaps':
+        specifier: ^1.1.5
+        version: 1.1.5
       next:
         specifier: 15.3.2
         version: 15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.88.0)
@@ -537,6 +540,9 @@ packages:
 
   '@types/json5@0.0.29':
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
+
+  '@types/kakaomaps@1.1.5':
+    resolution: {integrity: sha512-9atA+NoyN9l/PgE6XraFqbwspG7o/ZqkGc1PA/nWrjXB7TGeuVgUqFBvHsURbmiXbqHNLQ4Em1+8g3LXxg2i8g==}
 
   '@types/node@20.17.47':
     resolution: {integrity: sha512-3dLX0Upo1v7RvUimvxLeXqwrfyKxUINk0EAM83swP2mlSUcwV73sZy8XhNz8bcZ3VbsfQyC/y6jRdL5tgCNpDQ==}
@@ -2554,6 +2560,8 @@ snapshots:
   '@types/json-schema@7.0.15': {}
 
   '@types/json5@0.0.29': {}
+
+  '@types/kakaomaps@1.1.5': {}
 
   '@types/node@20.17.47':
     dependencies:
