@@ -9,5 +9,9 @@ type Props = Readonly<{
 }>;
 // Component
 export default function Card({ children, className }: Props) {
-  return <div className={`${styles.card} ${className}`}>{children}</div>;
+  return (
+    <div className={[styles.card, className].filter(Boolean).join(' ')}>
+      {children}
+    </div>
+  );
 }
