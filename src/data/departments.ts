@@ -1,14 +1,11 @@
-/**
- * 사용자 정보를 담고 있는 인터페이스
- */
-export interface Departments {
+export interface Department {
   id: number;
   name: string;
   icon: string;
   color: string;
 }
 
-export const departments: Departments[] = [
+export const departments: Department[] = [
   {
     id: 1,
     name: '소아청소년과',
