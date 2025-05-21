@@ -10,5 +10,11 @@ export interface SearchResult {
   x: number;
   y: number;
   place_url: string;
-  distance?: string;
+  distance?: number;
+}
+
+export interface KeywordResult {
+  name: string;
+  keyword: string;
+  results: SearchResult[];
 }
