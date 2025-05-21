@@ -5,8 +5,9 @@ import styles from './index.module.scss';
 // Props
 type Props = Readonly<{
   children: React.ReactNode;
+  className?: string | undefined;
 }>;
 // Component
-export default function Card({ children }: Props) {
-  return <div className={styles.card}>{children}</div>;
+export default function Card({ children, className }: Props) {
+  return <div className={`${styles.card} ${className}`}>{children}</div>;
 }
