@@ -20,9 +20,33 @@
   margin-top: -1rem;
   display: flex;
   flex-direction: column;
+  gap: 1rem;
   position: relative;
   z-index: 1;
   border-radius: 2rem 2rem 0 0;
   background-color: var(--color-white);
   box-shadow: 0 0 1rem var(--color-gray-400);
+}
+
+.keywordButton {
+  flex-shrink: 0;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-gray-300);
+  border-radius: 10rem;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+
+  &.active {
+    border: 1px solid var(--color-blue-300);
+    background-color: var(--color-blue-100);
+  }
+
+  span {
+    font-size: 0.875rem;
+  }
+
+  .count {
+    color: var(--color-red-400);
+  }
 }

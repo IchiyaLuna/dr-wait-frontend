@@ -7,22 +7,30 @@ import useGeolocation from '@/hooks/useGeolocation';
 import TopBar from '@/components/TopBar';
 import TabBar from '@/components/TabBar';
 // Types
-import { SearchResult } from '@/types/kakao/maps/search';
+import { KeywordResult, SearchResult } from '@/types/kakao/maps/search';
 // Styles
 import styles from './page.module.scss';
+import { Keyword, keyword, searchKeywords } from '@/data/searchKeywords';
+import RowScroll from '@/components/RowScroll';
 // Page
 export default function RecommendPage() {
   // Hooks
   const { location } = useGeolocation();
   // Refs
   const mapEl = useRef<HTMLDivElement>(null);
+  const pendingRef = useRef(0);
   // States
   const [map, setMap] = useState<kakao.maps.Map | undefined>(undefined);
   const [currentLocation, setCurrentLocation] = useState<{
     latitude: number;
     longitude: number;
   } | null>(null);
+  const [keywordResults, setKeywordResults] = useState<KeywordResult[]>([]);
+  const [keywordResultState, setKeywordResultState] = useState<
+    'WAITING' | 'SUCCESS' | 'ERROR'
+  >('WAITING');
   const [keyword, setKeyword] = useState<string>('');
+  const [category, setCategory] = useState<string>('');
   // Current Geolocation updater
   useEffect(() => {
     if (!location) return;
@@ -69,7 +77,74 @@ export default function RecommendPage() {
     // Move map to current location
     map.setCenter(currentLatLng);
   }, [map, currentLocation]);
+  //
+  useEffect(() => {
+    if (!map) return;
+    if (!currentLocation) return;
+    if (keywordResultState !== 'WAITING') return;
+    // KeywordResults initialization
+    setKeywordResults([]);
+    // Pending counter reset
+    pendingRef.current = searchKeywords.length;
+    // KakaoMaps places service
+    const places = new kakao.maps.services.Places(map);
+    // Search keywords
+    searchKeywords.map((keyword: Keyword) => {
+      places.keywordSearch(
+        keyword.keyword,
+        (data: SearchResult[], status: kakao.maps.services.Status) => {
+          // If success
+          if (status === kakao.maps.services.Status.OK) {
+            // Filter data results with category prefix
+            const results = data.filter((d) =>
+              d.category_name.startsWith(keyword.category)
+            );
+            // Set keywordResults state
+            setKeywordResults((prev) => [
+              ...prev,
+              {
+                name: keyword.name,
+                keyword: keyword.keyword,
+                results: results.sort(
+                  (a, b) => (a.distance ?? 0) - (b.distance ?? 0)
+                ),
+              },
+            ]);
+          } else {
+            // Set keywordResults state
+            setKeywordResults((prev) => [
+              ...prev,
+              {
+                name: keyword.name,
+                keyword: keyword.keyword,
+                results: [],
+              },
+            ]);
+          }
 
+          pendingRef.current -= 1;
+          if (pendingRef.current === 0) {
+            setKeywordResults((prev) =>
+              [...prev].sort(
+                (a, b) =>
+                  b.results.length - a.results.length ||
+                  a.name.localeCompare(b.name)
+              )
+            );
+            setKeywordResultState('SUCCESS');
+          }
+        },
+        {
+          useMapCenter: true,
+          radius: 1000,
+        }
+      );
+    });
+  }, [map, currentLocation, keywordResultState]);
+  useEffect(() => {
+    if (keywordResultState !== 'SUCCESS') return;
+    setCategory(keywordResults[0].name);
+  }, [keywordResults, keywordResultState]);
   useEffect(() => {
     if (!map) return;
     if (!keyword.length) return;
@@ -77,7 +152,7 @@ export default function RecommendPage() {
 
     ps.keywordSearch(keyword, placesSearchCB, {
       useMapCenter: true,
-      radius: 250,
+      radius: 1000,
     });
 
     function placesSearchCB(
@@ -120,16 +195,41 @@ export default function RecommendPage() {
         <div ref={mapEl} className={styles.map}></div>
         <div className={styles.panel}>
           <span>할일 추천</span>
-          <button onClick={() => setKeyword('공원')}>공원</button>
-          <button onClick={() => setKeyword('편의점')}>편의점</button>
-          <button onClick={() => setKeyword('빵')}>빵집</button>
-          <button onClick={() => setKeyword('서점')}>서점</button>
-          <button onClick={() => setKeyword('드럭스토어')}>드럭스토어</button>
-          <button onClick={() => setKeyword('생활용품')}>생활용품점</button>
-          <button onClick={() => setKeyword('카페')}>카페</button>
-          <button onClick={() => setKeyword('은행')}>은행</button>
-          <button onClick={() => setKeyword('패트스푸드')}>패트스푸드</button>
-          <button onClick={() => setKeyword('죽')}>죽집</button>
+          <RowScroll style={{ gap: '0.5rem' }}>
+            {keywordResults.length ? (
+              keywordResults.map((result) => (
+                <button
+                  key={result.keyword}
+                  className={[
+                    styles.keywordButton,
+                    category === result.name && styles.active,
+                  ]
+                    .filter(Boolean)
+                    .join(' ')}
+                  onClick={() => {
+                    setCategory(result.name);
+                  }}
+                >
+                  <span>{result.name}</span>
+                  <span className={styles.count}>{result.results.length}</span>
+                </button>
+              ))
+            ) : (
+              <div>대기중</div>
+            )}
+          </RowScroll>
+          <div>
+            {category &&
+              (
+                keywordResults.find((results) => results.name === category)
+                  ?.results ?? []
+              ).map((r) => (
+                <div key={r.id}>
+                  <span>{r.place_name}</span>
+                  <span>{r.distance}</span>
+                </div>
+              ))}
+          </div>
         </div>
       </main>
       <TabBar />
