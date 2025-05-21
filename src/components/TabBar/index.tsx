@@ -16,6 +16,11 @@ const Menus = [
     icon: 'fa-note-medical',
   },
   {
+    href: '/recommend',
+    text: '할일임시',
+    icon: 'fa-lightbulb',
+  },
+  {
     href: '/profile',
     text: '마이페이지',
     icon: 'fa-user',
