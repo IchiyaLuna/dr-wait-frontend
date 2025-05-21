@@ -4,6 +4,8 @@ import React from 'react';
 import type { Metadata } from 'next';
 // Font
 import localFont from 'next/font/local';
+// Script
+import Script from 'next/script';
 // Styles
 import './globals.scss';
 import styles from './layout.module.scss';
@@ -25,7 +27,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={pretendard.className}>
-      <body className={styles.body}>{children}</body>
+      <body className={styles.body}>
+        {children}
+        <Script
+          src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.KAKAO_JAVASCRIPT_KEY}&libraries=services&autoload=false`}
+          strategy={'beforeInteractive'}
+        />
+      </body>
     </html>
   );
 }
