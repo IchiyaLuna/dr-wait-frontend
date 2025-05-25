@@ -14,4 +14,9 @@
   color: var(--color-blue-500);
 }
 
+.back {
+  font-size: 1.625rem;
+  font-weight: 500;
+}
+
 /*# sourceMappingURL=index.module.css.map */
