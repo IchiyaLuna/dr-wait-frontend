@@ -1,4 +1,4 @@
-"use client";
+'use client';
 // React
 import React, { useState, useEffect } from 'react';
 // Components
@@ -10,16 +10,17 @@ import styles from './page.module.scss';
 // 하드코딩된 샘플 사용자 정보
 const User = {
   userId: 'abc',
-  password: 'System2000!!'
+  password: 'System2000!!',
 };
 
-export default function Register() {
+export default function RegisterPage() {
   // 입력 상태
   const [username, setUsername] = useState('');
-  const [id, setId] = useState('');  
+  const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [residentRegistrationNumber, setResidentRegistrationNumber] = useState('');
+  const [residentRegistrationNumber, setResidentRegistrationNumber] =
+    useState('');
 
   // 유효성 상태
   const [usernameValid, setUsernameValid] = useState(false);
@@ -57,7 +58,9 @@ export default function Register() {
     setPhoneValid(regex.test(val));
   };
 
-  const handleResidentRegistrationNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleResidentRegistrationNumber = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const val = e.target.value;
     setResidentRegistrationNumber(val);
     const regex = /^\d{6}-?\d{7}$/;
@@ -66,7 +69,13 @@ export default function Register() {
 
   // 회원가입 시도
   const onClickSignUp = () => {
-    if (usernameValid && idValid && passwordValid && phoneValid && residentValid) {
+    if (
+      usernameValid &&
+      idValid &&
+      passwordValid &&
+      phoneValid &&
+      residentValid
+    ) {
       alert('회원가입이 완료되었습니다.');
     } else {
       setErrorMsg('모든 항목을 올바르게 입력해주세요.');
@@ -76,7 +85,13 @@ export default function Register() {
   // 유효성 체크에 따라 버튼 활성화
   useEffect(() => {
     setErrorMsg('');
-    if (usernameValid && idValid && passwordValid && phoneValid && residentValid) {
+    if (
+      usernameValid &&
+      idValid &&
+      passwordValid &&
+      phoneValid &&
+      residentValid
+    ) {
       setNotAllow(false);
     } else {
       setNotAllow(true);
@@ -84,20 +99,25 @@ export default function Register() {
   }, [usernameValid, idValid, passwordValid, phoneValid, residentValid]);
 
   return (
-    <> 
+    <>
       <TopBar />
-      <main className={`${styles.main} flex flex-col overflow-x-visible`}>        
+      <main className={`${styles.main} flex flex-col overflow-x-visible`}>
         {/* 헤더 영역 */}
         <div className="flex items-center justify-between px-4 pt-4">
           <h1 className="text-2xl font-semibold text-gray-800">회원가입</h1>
-          <button className="text-3xl text-gray-600 leading-none">&times;</button>
+          <button className="text-3xl text-gray-600 leading-none">
+            &times;
+          </button>
         </div>
 
         {/* 입력 폼 */}
         <div className="flex-grow px-4 pt-6">
           {/* 이름 */}
           <div className="mb-4">
-            <label htmlFor="username" className="block text-sm text-gray-600 mb-1">
+            <label
+              htmlFor="username"
+              className="block text-sm text-gray-600 mb-1"
+            >
               이름
             </label>
             <input
@@ -111,7 +131,8 @@ export default function Register() {
             />
             {!usernameValid && username.length > 0 && (
               <p className="text-red-500 text-sm mt-1">이름을 입력해주세요.</p>
-            )}          </div>
+            )}{' '}
+          </div>
 
           {/* 아이디 */}
           <div className="mb-4">
@@ -128,13 +149,18 @@ export default function Register() {
               className="w-full border-b border-gray-300 py-2 text-lg focus:outline-none focus:border-gray-500"
             />
             {!idValid && id.length > 0 && (
-              <p className="text-red-500 text-sm mt-1">아이디를 입력해주세요.</p>
+              <p className="text-red-500 text-sm mt-1">
+                아이디를 입력해주세요.
+              </p>
             )}
           </div>
 
           {/* 비밀번호 */}
           <div className="mb-4">
-            <label htmlFor="password" className="block text-sm text-gray-600 mb-1">
+            <label
+              htmlFor="password"
+              className="block text-sm text-gray-600 mb-1"
+            >
               비밀번호
             </label>
             <input
@@ -152,10 +178,13 @@ export default function Register() {
               </p>
             )}
           </div>
-                    
+
           {/* 전화번호 */}
           <div className="mb-4">
-            <label htmlFor="phone_number" className="block text-sm text-gray-600 mb-1">
+            <label
+              htmlFor="phone_number"
+              className="block text-sm text-gray-600 mb-1"
+            >
               전화번호
             </label>
             <input
@@ -168,13 +197,18 @@ export default function Register() {
               className="w-full border-b border-gray-300 py-2 text-lg focus:outline-none focus:border-gray-500"
             />
             {!phoneValid && phoneNumber.length > 0 && (
-              <p className="text-red-500 text-sm mt-1">전화번호를 입력해주세요.</p>
+              <p className="text-red-500 text-sm mt-1">
+                전화번호를 입력해주세요.
+              </p>
             )}
           </div>
-          
+
           {/* 주민등록번호 */}
           <div className="mb-4">
-            <label htmlFor="resident_registration_number" className="block text-sm text-gray-600 mb-1">
+            <label
+              htmlFor="resident_registration_number"
+              className="block text-sm text-gray-600 mb-1"
+            >
               주민등록번호
             </label>
             <input
@@ -187,7 +221,9 @@ export default function Register() {
               className="w-full border-b border-gray-300 py-2 text-lg focus:outline-none focus:border-gray-500"
             />
             {!residentValid && residentRegistrationNumber.length > 0 && (
-              <p className="text-red-500 text-sm mt-1">주민등록번호를 입력해주세요.</p>
+              <p className="text-red-500 text-sm mt-1">
+                주민등록번호를 입력해주세요.
+              </p>
             )}
           </div>
         </div>
@@ -205,7 +241,9 @@ export default function Register() {
           >
             회원가입하기
           </button>
-          {errorMsg && <p className="text-center text-red-500 mt-2">{errorMsg}</p>}
+          {errorMsg && (
+            <p className="text-center text-red-500 mt-2">{errorMsg}</p>
+          )}
         </div>
       </main>
       <TabBar />
