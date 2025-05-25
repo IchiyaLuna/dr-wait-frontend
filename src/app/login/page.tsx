@@ -1,4 +1,4 @@
-"use client";
+'use client';
 // React
 import React, { useState, useEffect } from 'react';
 // Components
@@ -6,15 +6,15 @@ import TopBar from '@/components/TopBar';
 import TabBar from '@/components/TabBar';
 import Link from 'next/link';
 // Styles
-import styles from './page.module.scss';
+import styles from '../page.module.scss';
 
 // 하드코딩된 샘플 사용자 정보
 const User = {
   userId: 'abc',
-  password: 'System2000!!'
+  password: 'System2000!!',
 };
 
-export default function Login() {
+export default function LoginPage() {
   // 상태 선언
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
@@ -60,20 +60,25 @@ export default function Login() {
   }, [userIdValid, passwordValid]);
 
   return (
-    <> 
+    <>
       <TopBar />
-      <main className={`${styles.main} flex flex-col overflow-x-visible`}>        
+      <main className={`${styles.main} flex flex-col overflow-x-visible`}>
         {/* 헤더 영역 */}
         <div className="flex items-center justify-between px-4 pt-4">
           <h1 className="text-2xl font-semibold text-gray-800">로그인</h1>
-          <button className="text-3xl text-gray-600 leading-none">&times;</button>
+          <button className="text-3xl text-gray-600 leading-none">
+            &times;
+          </button>
         </div>
 
         {/* 입력 폼 */}
         <div className="flex-grow px-4 pt-6">
           {/* 아이디 */}
           <div className="mb-8">
-            <label htmlFor="userId" className="block text-sm text-gray-600 mb-1">
+            <label
+              htmlFor="userId"
+              className="block text-sm text-gray-600 mb-1"
+            >
               아이디
             </label>
             <input
@@ -86,13 +91,18 @@ export default function Login() {
               className="w-full border-b border-gray-300 py-2 text-lg focus:outline-none focus:border-gray-500"
             />
             {!userIdValid && userId.length > 0 && (
-              <p className="text-red-500 text-sm mt-1">아이디를 입력해주세요.</p>
+              <p className="text-red-500 text-sm mt-1">
+                아이디를 입력해주세요.
+              </p>
             )}
           </div>
 
           {/* 비밀번호 */}
           <div className="mb-2">
-            <label htmlFor="password" className="block text-sm text-gray-600 mb-1">
+            <label
+              htmlFor="password"
+              className="block text-sm text-gray-600 mb-1"
+            >
               비밀번호
             </label>
             <input
@@ -136,7 +146,9 @@ export default function Login() {
           >
             로그인하기
           </button>
-          {errorMsg && <p className="text-center text-red-500 mt-2">{errorMsg}</p>}
+          {errorMsg && (
+            <p className="text-center text-red-500 mt-2">{errorMsg}</p>
+          )}
         </div>
       </main>
       <TabBar />
