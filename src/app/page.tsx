@@ -5,6 +5,7 @@ import TopBar from '@/components/TopBar';
 import ProfileCard from '@/components/ProfileCard';
 import Row from '@/components/Row';
 import Card from '@/components/Card';
+import Column from '@/components/Column';
 import SectionTitle from '@/components/SectionTitle';
 import RowScroll from '@/components/RowScroll';
 import DepartmentCard from '@/components/DepartmentCard';
@@ -13,13 +14,51 @@ import TabBar from '@/components/TabBar';
 import { departments } from '@/data/departments';
 // Styles
 import styles from './page.module.scss';
+import Link from 'next/link';
 // Page
 export default function HomePage() {
   return (
     <>
-      <TopBar />
+      <TopBar type={'LOGO'} />
       <main className={styles.main}>
         <ProfileCard />
+        <Row>
+          <Column>
+            <Link href="/hospital/123" className={styles.link}>
+              <Card className={styles.bigCard}>
+                <div className={styles.header}>
+                  <h3>병원 찾기</h3>
+                  <p>지금 바로 접수하기</p>
+                </div>
+                <div className={styles.footer}>
+                  <i className={`fa-duotone fa-fw fa-hospitals`} />
+                </div>
+              </Card>
+            </Link>
+          </Column>
+          <Column>
+            <Card className={styles.smallCard}>
+              <div className={styles.header}>
+                <h3>진료 기록</h3>
+              </div>
+              <div className={styles.footer}>
+                <i className={`fa-duotone fa-fw fa-files-medical`} />
+              </div>
+            </Card>
+            <Link href="/search/pharmacy" className={styles.link}>
+              <Card className={styles.smallCard}>
+                <div className={styles.header}>
+                  <h3>약국 찾기</h3>
+                </div>
+                <div className={styles.footer}>
+                  <i
+                    className={`fa-duotone fa-fw fa-prescription-bottle-medical`}
+                  />
+                </div>
+              </Card>
+            </Link>
+          </Column>
+        </Row>
         <Row>
           <Card>동네 인기 병원 🔥</Card>
           <Card>지금 문연 병원 🛋️</Card>
@@ -36,18 +75,6 @@ export default function HomePage() {
             />
           ))}
         </RowScroll>
-        <div className={styles.component}>MyPage</div>
-        <div className={styles.component}>MyPage</div>
-        <div className={styles.component}>MyPage</div>
-        <div className={styles.component}>MyPage</div>
-        <div className={styles.component}>MyPage</div>
-        <div className={styles.component}>MyPage</div>
-        <div className={styles.component}>MyPage</div>
-        <div className={styles.component}>MyPage</div>
-        <div className={styles.component}>MyPage</div>
-        <div className={styles.component}>MyPage</div>
-        <div className={styles.component}>MyPage</div>
-        <div className={styles.component}>MyPage</div>
       </main>
       <TabBar />
     </>
