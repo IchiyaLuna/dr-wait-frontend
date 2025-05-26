@@ -1,0 +1,42 @@
+.main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-gray-50);
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.map {
+  flex-grow: 1;
+
+  &.active {
+    > div:nth-child(2) {
+      bottom: 1rem !important;
+    }
+  }
+}
+
+.panel {
+  max-height: 0;
+  padding: 0 1rem;
+  margin-top: -1rem;
+  border-radius: 1.5rem 1.5rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-white);
+  box-shadow: 0 0 1rem var(--color-gray-400);
+  z-index: 1;
+
+  transition-property: max-height, padding;
+  transition-duration: 0.25s;
+  transition-timing-function: ease-out;
+
+  &.active {
+    max-height: 50%;
+    padding: 1rem;
+  }
+}
