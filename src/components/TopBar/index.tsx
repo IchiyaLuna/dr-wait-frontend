@@ -1,3 +1,6 @@
+'use client';
+// Next.js
+import { useRouter } from 'next/navigation';
 // Styles
 import styles from './index.module.scss';
 // Props
@@ -7,6 +10,9 @@ type Props = {
 };
 // Component
 export default function TopBar({ title, type = 'LOGO' }: Props) {
+  // Navigation
+  const router = useRouter();
+  // Render
   return (
     <div className={styles.wrapper}>
       {type === 'LOGO' ? (
@@ -22,7 +28,13 @@ export default function TopBar({ title, type = 'LOGO' }: Props) {
       ) : null}
       {type === 'BACK' ? (
         <div>
-          <button className={styles.back}>
+          <button
+            type={'button'}
+            className={styles.back}
+            onClick={() => {
+              router.back();
+            }}
+          >
             <i className={`fa-fw fa-regular fa-chevron-left`} />
           </button>
         </div>
