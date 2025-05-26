@@ -8,10 +8,10 @@ import TabBar from '@/components/TabBar';
 import styles from './page.module.scss';
 
 // 하드코딩된 샘플 사용자 정보
-const User = {
-  userId: 'abc',
-  password: 'System2000!!',
-};
+// const User = {
+//   userId: 'abc',
+//   password: 'System2000!!',
+// };
 
 export default function RegisterPage() {
   // 입력 상태
@@ -100,7 +100,7 @@ export default function RegisterPage() {
 
   return (
     <>
-      <TopBar />
+      <TopBar type={'LOGO'} />
       <main className={`${styles.main} flex flex-col overflow-x-visible`}>
         {/* 헤더 영역 */}
         <div className="flex items-center justify-between px-4 pt-4">

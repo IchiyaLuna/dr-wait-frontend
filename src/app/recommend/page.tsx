@@ -168,7 +168,7 @@ export default function RecommendPage() {
   // Render
   return (
     <>
-      <TopBar />
+      <TopBar type={'LOGO'} />
       <main className={styles.main}>
         <div ref={mapEl} className={styles.map}></div>
         <div

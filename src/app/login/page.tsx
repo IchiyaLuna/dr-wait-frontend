@@ -61,7 +61,7 @@ export default function LoginPage() {
 
   return (
     <>
-      <TopBar />
+      <TopBar type={'LOGO'} />
       <main className={`${styles.main} flex flex-col overflow-x-visible`}>
         {/* 헤더 영역 */}
         <div className="flex items-center justify-between px-4 pt-4">
