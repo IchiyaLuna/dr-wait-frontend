@@ -1,8 +1,9 @@
-.row {
+.column {
   display: flex;
+  flex-direction: column;
   gap: 1rem;
 }
-.row > * {
+.column > * {
   flex: 1;
 }
 

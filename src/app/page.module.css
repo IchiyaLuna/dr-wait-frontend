@@ -9,27 +9,60 @@
   overflow-y: scroll;
 }
 
-.buttonRow {
+.link {
   display: flex;
-  gap: 1rem;
+  flex-direction: column;
 }
-.buttonRow > div {
-  flex-grow: 1;
+.link > .div {
+  flex: 1;
 }
 
-.tempCard {
-  padding: 2rem;
-  border-radius: 1rem;
+.bigCard {
+  flex: 1;
+  align-items: stretch;
+  justify-content: space-between;
+  background-color: var(--color-blue-950);
+}
+.bigCard > .header h3 {
+  color: var(--color-white);
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+.bigCard > .header p {
+  color: var(--color-gray-400);
+  font-size: 0.825rem;
+  font-weight: 400;
+}
+.bigCard > .footer {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-white);
-  box-shadow: 0 0 1rem var(--color-gray-200);
+  flex-direction: column;
+  align-items: flex-end;
+}
+.bigCard > .footer > i {
+  font-size: 3rem;
+  --fa-primary-color: var(--color-white);
+  --fa-secondary-color: var(--color-slate-50);
 }
 
-.component {
-  padding: 1rem;
-  background-color: aliceblue;
+.smallCard {
+  align-items: stretch;
+  justify-content: space-between;
+  background-color: var(--color-slate-200);
+}
+.smallCard > .header h3 {
+  color: var(--color-blue-950);
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+.smallCard > .footer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.smallCard > .footer > i {
+  font-size: 2.125rem;
+  --fa-primary-color: var(--color-blue-950);
+  --fa-secondary-color: var(--color-blue-900);
 }
 
 /*# sourceMappingURL=page.module.css.map */
