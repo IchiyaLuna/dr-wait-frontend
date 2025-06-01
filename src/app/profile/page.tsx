@@ -1,61 +1,85 @@
 import React from 'react';
-
+import { auth, signOut } from '@/auth';
+// Components
 import TabBar from '@/components/TabBar';
 import Link from 'next/link';
-import { User } from 'lucide-react';
+import TopBar from '@/components/TopBar';
+import { User } from '@/types/user';
 // Styles
 import styles from './page.module.scss';
+import Card from '@/components/Card';
 // Page
-export default function ProfilePage() {
-  const userName = '최성하';
-  const id = 'sungha123';
-  const birth = '2001년 03월 16일';
-
+export default async function ProfilePage() {
+  // Authenticate user
+  const session = await auth();
+  const currentUser: User | null = session
+    ? await fetch(`${process.env.BACKEND_URL}/api/user/info`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${session.token.access_token}`,
+        },
+      })
+        .then((res) => res.json())
+        .catch(() => null)
+    : null;
+  // Render
   return (
     <>
+      <TopBar type={'LOGO'} />
       <main className={styles.main}>
-        <div className="items-center gap-4 my-4">
-          <span className="text-xl font-bold">마이페이지</span>
-        </div>
-        <div className="flex items-center justify-between my-4">
-          {/* 왼쪽: 프로필 */}
-          <div className="flex items-center gap-4">
-            {/* 프로필 아이콘 */}
-            <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-              <User className="text-blue" size={28} />
-            </div>
-
-            {/* 이름 + 아이디 + 생일 */}
-            <div className="flex flex-col">
-              <div className="flex items-baseline gap-2">
-                <span className="text-base font-medium">최성하</span>
-                <span className="text-xs text-gray-500">hahaha123</span>
-              </div>
-              <span className="text-xs text-gray-400 mt-1">2001년 03월 16일</span>
-            </div>
+        <Card className={styles.profileCard}>
+          <div className={styles.icon}>
+            <i className={'fa-fw fa-light fa-user'} />
           </div>
+          <div className={styles.info}>
+            {currentUser ? (
+              <div>
+                <p>{currentUser.fullname}</p>
+                <span>{currentUser.username}</span>
+              </div>
+            ) : null}
+            <span>
+              {currentUser ? currentUser.phoneNumber : '로그인 후 이용 가능'}
+            </span>
+          </div>
+          {currentUser ? (
+            <form
+              action={async () => {
+                'use server';
+                await signOut();
+              }}
+            >
+              <button type="submit" className={styles.button}>
+                로그아웃
+              </button>
+            </form>
+          ) : (
+            <Link href="/login?callbackUrl=profile" className={styles.button}>
+              로그인
+            </Link>
+          )}
+        </Card>
 
-          {/* 오른쪽: 프로필 설정 버튼 */}
-          <button className="border border-gray-300 text-sm px-2 py-1 rounded font-medium text-gray-800 bg-transparent">
-            프로필 설정
-          </button>
-        </div>
-
-        {/* 메뉴 리스트 */}
-        <Link href="" className="flex justify-between items-center py-6 border-b border-gray-100">진료내역</Link>
-        <Link href="/family" className="flex justify-between items-center py-6 border-b border-gray-100">가족계정 관리</Link>
-        <Link href="/membership" className="flex justify-between items-center py-6 border-b border-gray-100">멤버십 관리</Link>
-        <Link href="/support" className="flex justify-between items-center py-6 border-b border-gray-100">고객센터</Link>
+        <Card className={styles.menuCard}>
+          <Link href={'/reservation'}>
+            <i className={'fa-fw fa-regular fa-files-medical'} />
+            <span>진료내역</span>
+          </Link>
+          <Link href={'/family'}>
+            <i className={'fa-fw fa-regular fa-users-gear'} />
+            <span>가족계정 관리</span>
+          </Link>
+          <Link href={'/profile/membership'}>
+            <i className={'fa-fw fa-regular fa-money-check-dollar'} />
+            <span>멤버십 관리</span>
+          </Link>
+          <Link href={'/support'}>
+            <i className={'fa-fw fa-regular fa-user-headset'} />
+            <span>고객지원</span>
+          </Link>
+        </Card>
       </main>
       <TabBar />
     </>
-  );
-}
-
-function ListItem({ title }: { title: string }) {
-  return (
-    <div className="flex justify-between items-center py-4 border-b border-gray-100">
-      <span>{title}</span>
-    </div>
   );
 }
