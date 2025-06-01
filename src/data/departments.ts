@@ -10,7 +10,7 @@ export const departments: Department[] = [
     id: 1,
     name: '소아청소년과',
     icon: 'fa-person-breastfeeding',
-    color: '--color-blue-200',
+    color: '',
   },
   {
     id: 2,

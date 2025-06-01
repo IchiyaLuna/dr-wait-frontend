@@ -52,8 +52,8 @@ export const hospitalKeywords: Keyword[] = [
     category: '의료,건강 > 병원 > 피부과',
   },
   {
-    name: '소아과',
-    keyword: '소아과',
+    name: '소아청소년과',
+    keyword: '소아청소년과',
     category: '의료,건강 > 병원 > 소아청소년과',
   },
   {
