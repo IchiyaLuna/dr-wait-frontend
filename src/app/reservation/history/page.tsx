@@ -9,9 +9,9 @@ import ReservationCard from '@/app/reservation/ReservationCard.component';
 // Types
 import { Reservation } from '@/types/reservation';
 // Styles
-import styles from './page.module.scss';
+import styles from '../page.module.scss';
 // Page
-export default async function ReservationPage() {
+export default async function ReservationHistoryPage() {
   // Authenticate user
   const session = await auth();
   // Fetch  data
@@ -26,18 +26,17 @@ export default async function ReservationPage() {
         .catch(() => null)
     : null;
   const filteredReservations = reservations
-    ? reservations.filter((reservation) => !reservation.completed)
+    ? reservations.filter((reservation) => reservation.completed)
     : null;
-  console.log(reservations);
   return (
     <>
       <TopBar type={'LOGO'} />
       <main className={styles.main}>
         <div className={styles.tabs}>
-          <Link href={'/reservation'} className={styles.active}>
-            진행 중
+          <Link href={'/reservation'}>진행중</Link>
+          <Link href={'/reservation/history'} className={styles.active}>
+            과거 진료내역
           </Link>
-          <Link href={'/reservation/history'}>과거 진료내역</Link>
         </div>
         {session ? (
           filteredReservations && filteredReservations.length ? (
@@ -51,7 +50,7 @@ export default async function ReservationPage() {
             </div>
           ) : (
             <div className={styles.noReservations}>
-              진행 중인 내역이 없습니다.
+              과거 진료내역이 없습니다.
             </div>
           )
         ) : (
