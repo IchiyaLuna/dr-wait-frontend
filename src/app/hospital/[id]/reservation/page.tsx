@@ -2,13 +2,7 @@
 import React from 'react';
 // Components
 import TopBar from '@/components/TopBar';
-import ProfileCard from '@/components/ProfileCard';
-import Row from '@/components/Row';
 import Card from '@/components/Card';
-import SectionTitle from '@/components/SectionTitle';
-import RowScroll from '@/components/RowScroll';
-import DepartmentCard from '@/components/DepartmentCard';
-import TabBar from '@/components/TabBar';
 // Styles
 import styles from './page.module.scss';
 // Page
