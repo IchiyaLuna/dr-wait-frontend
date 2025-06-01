@@ -16,8 +16,8 @@ const Menus = [
     icon: 'fa-note-medical',
   },
   {
-    href: '/recommend',
-    text: '할일임시',
+    href: '/reservation/suggestion',
+    text: '할 일 추천',
     icon: 'fa-lightbulb',
   },
   {
