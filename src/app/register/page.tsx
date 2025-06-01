@@ -34,7 +34,7 @@ export default function RegisterPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   // Flags
-  const isNextButtonDisabled =
+  const isNextButtonEnabled =
     fullname.length > 0 &&
     phoneNumber.length === 11 &&
     rrnFront.length === 6 &&
@@ -203,7 +203,7 @@ export default function RegisterPage() {
             <button
               type={'button'}
               className={styles.submit}
-              disabled={isNextButtonDisabled}
+              disabled={!isNextButtonEnabled}
               onClick={() => setStep(2)}
             >
               다음
