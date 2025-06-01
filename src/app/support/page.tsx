@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChevronLeft } from 'lucide-react';
+// Components
 import TabBar from '@/components/TabBar';
 import TopBar from '@/components/TopBar';
 // Styles
