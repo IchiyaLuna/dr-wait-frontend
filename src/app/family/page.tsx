@@ -3,7 +3,6 @@ import React from 'react';
 import Link from 'next/link';
 // Auth
 import { auth } from '@/auth';
-import { Plus } from 'lucide-react';
 // Components
 import TopBar from '@/components/TopBar';
 // Types
@@ -13,7 +12,7 @@ import { FamilyMember } from '@/types/family';
 import styles from './page.module.scss';
 import DeleteButton from '@/app/family/DeleteButton.component';
 import Card from '@/components/Card';
-import { acceptFamilyInvite, deleteFamilyMember } from '@/app/family/actions';
+import { acceptFamilyInvite } from '@/app/family/actions';
 import { revalidatePath } from 'next/cache';
 // Page
 export default async function FamilyPage() {
