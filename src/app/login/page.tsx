@@ -3,7 +3,7 @@
 import React, { useState, useActionState, useEffect } from 'react';
 // Next.js
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 // Components
 import TopBar from '@/components/TopBar';
 // Actions
@@ -18,6 +18,8 @@ const initialState: stateType = {
 export default function LoginPage() {
   // Router
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get('callbackUrl') ?? '/';
   // actionStates
   const [state, dispatch, isPending] = useActionState(
     authenticate,
@@ -31,9 +33,10 @@ export default function LoginPage() {
   // Effects
   useEffect(() => {
     if (state && state.message === 'success') {
-      router.push('/');
+      console.log('callbackUrl:', callbackUrl);
+      router.replace(callbackUrl);
     }
-  }, [state, router]);
+  }, [state, router, callbackUrl]);
   // Render
   return (
     <>
