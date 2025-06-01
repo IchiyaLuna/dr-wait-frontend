@@ -1,12 +1,12 @@
+import Link from 'next/link';
+import { auth } from '@/auth';
 // Components
 import Card from '@/components/Card';
-import { auth } from '@/auth';
-import Link from 'next/link';
-import { getToken } from '@auth/core/jwt';
-// Styles
-import styles from './index.module.scss';
+// Types
 import { User } from '@/types/user';
 import { Reservation } from '@/types/reservation';
+// Styles
+import styles from './index.module.scss';
 // Props
 type Props = {
   title?: string;
