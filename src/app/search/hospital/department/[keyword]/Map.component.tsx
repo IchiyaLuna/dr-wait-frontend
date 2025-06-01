@@ -32,7 +32,7 @@ export default function Map({ keyword, category }: Props) {
     longitude: number;
   } | null>(null);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
-  const [markers, setMarkers] = useState<kakao.maps.Marker[]>([]);
+  const [, setMarkers] = useState<kakao.maps.Marker[]>([]);
   // Memos
   // Debounced center updater
   const updateCenterWhenMapMoved = useMemo(

@@ -31,7 +31,7 @@ export default function PharmacyPage() {
   const [currentPharmacy, setCurrentPharmacy] = useState<SearchResult | null>(
     null
   );
-  const [markers, setMarkers] = useState<kakao.maps.Marker[]>([]);
+  const [, setMarkers] = useState<kakao.maps.Marker[]>([]);
   // Memos
   // Debounced center updater
   const updateCenterWhenMapMoved = useMemo(
