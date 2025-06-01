@@ -1,26 +1,18 @@
 import React from 'react';
 import { ChevronLeft } from 'lucide-react';
 import TabBar from '@/components/TabBar';
+import TopBar from '@/components/TopBar';
 // Styles
 import styles from './page.module.scss';
 // Page
 export default function SupportPage() {
-  const userName = '최성하';
-
   return (
     <>
+      <TopBar type={'BACK'} title={'고객센터'} />
       <main className={styles.main}>
-        <div className="relative mb-6 flex items-center justify-center">
-          <button className="absolute left-0">
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-          <h1 className="text-base font-medium">고객센터</h1>
-        </div>
-
         {/* 인사말 */}
         <div className="mb-6">
           <p className="text-lg font-semibold">
-            {userName}님, <br />
             <span className="font-bold text-2xl">무엇을 도와드릴까요?</span>
           </p>
           <p className="text-sm text-gray-400 mt-2">
@@ -36,7 +28,7 @@ export default function SupportPage() {
           </span>
         </div>
       </main>
-      <TabBar/>
+      <TabBar />
     </>
   );
 }
