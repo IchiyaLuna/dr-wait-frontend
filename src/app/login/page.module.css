@@ -9,27 +9,57 @@
   overflow-y: scroll;
 }
 
-.buttonRow {
+.form {
+  flex: 1;
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   gap: 1rem;
 }
-.buttonRow > div {
-  flex-grow: 1;
+
+.inputs {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+.inputs > label {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+.inputs > input {
+  padding: 1rem 0;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--color-gray-300);
+}
+.inputs > input:focus {
+  border-color: var(--color-blue-500);
+  outline: none;
+}
+.inputs .error {
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  text-align: center;
+  color: var(--color-red-500);
 }
 
-.tempCard {
-  padding: 2rem;
+.register {
+  font-size: 1.0625rem;
+  align-self: center;
+  text-decoration-line: underline;
+}
+
+.submit {
+  padding: 1rem;
   border-radius: 1rem;
   display: flex;
-  align-items: center;
   justify-content: center;
-  background: var(--color-white);
-  box-shadow: 0 0 1rem var(--color-gray-200);
+  align-items: center;
+  color: var(--color-white);
+  background-color: var(--color-blue-500);
 }
-
-.component {
-  padding: 1rem;
-  background-color: aliceblue;
+.submit:disabled {
+  background-color: var(--color-gray-300);
+  cursor: not-allowed;
 }
 
 /*# sourceMappingURL=page.module.css.map */

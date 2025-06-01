@@ -19,9 +19,9 @@
 
 .bigCard {
   flex: 1;
-  align-items: stretch;
+  align-items: stretch !important;
   justify-content: space-between;
-  background-color: var(--color-blue-950);
+  background-color: var(--color-blue-950) !important;
 }
 .bigCard > .header h3 {
   color: var(--color-white);
@@ -45,9 +45,9 @@
 }
 
 .smallCard {
-  align-items: stretch;
-  justify-content: space-between;
-  background-color: var(--color-slate-200);
+  align-items: stretch !important;
+  justify-content: space-between !important;
+  background-color: var(--color-slate-200) !important;
 }
 .smallCard > .header h3 {
   color: var(--color-blue-950);

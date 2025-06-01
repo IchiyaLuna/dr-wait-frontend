@@ -1,15 +1,84 @@
 .main {
   flex-grow: 1;
-  padding: 0 1rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
-  overflow: scroll;
+  gap: 1rem;
+  background-color: var(--color-gray-50);
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
-.component {
+.profileCard {
+  flex-direction: row !important;
+  gap: 1rem !important;
+}
+.profileCard .icon {
+  width: 3.5rem;
+  aspect-ratio: 1/1;
   padding: 1rem;
-  background-color: aliceblue;
-  border: 1px solid var(--neutral-100);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-blue-100);
+}
+.profileCard .icon > i {
+  font-size: 1.5rem;
+  color: var(--color-blue-800);
+}
+.profileCard .info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.profileCard .info > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+.profileCard .info > div p {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+.profileCard .info > div span {
+  font-size: 0.875rem;
+  color: var(--color-gray-600);
+}
+.profileCard .info > span {
+  font-size: 0.875rem;
+  color: var(--color-gray-400);
+}
+.profileCard .button {
+  padding: 0.5rem 0.75rem;
+  border: solid 1px var(--color-gray-200);
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.menuCard {
+  padding: 0 !important;
+  align-items: stretch !important;
+}
+.menuCard > a {
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.75rem;
+}
+.menuCard > a > i {
+  font-size: 1.5rem;
+  color: var(--color-gray-600);
+}
+.menuCard > a > span {
+  font-size: 1rem;
+  font-weight: 500;
+}
+.menuCard > a:not(:last-child) {
+  border-bottom: 1px solid var(--color-gray-200);
 }
 
 /*# sourceMappingURL=page.module.css.map */

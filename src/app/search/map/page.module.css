@@ -9,23 +9,27 @@
   overflow-y: scroll;
 }
 
-.footer {
-  width: 100%;
-  padding: 1rem;
-  border-top: 1px solid var(--color-gray-200);
+.buttonRow {
   display: flex;
-  flex-direction: column;
+  gap: 1rem;
+}
+.buttonRow > div {
+  flex-grow: 1;
 }
 
-.checkIn {
-  padding: 1rem;
+.tempCard {
+  padding: 2rem;
   border-radius: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-white);
-  background-color: var(--color-blue-500);
+  background: var(--color-white);
   box-shadow: 0 0 1rem var(--color-gray-200);
+}
+
+.component {
+  padding: 1rem;
+  background-color: aliceblue;
 }
 
 /*# sourceMappingURL=page.module.css.map */
