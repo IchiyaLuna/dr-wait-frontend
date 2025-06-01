@@ -52,7 +52,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ],
   callbacks: {
     authorized: async ({ auth }) => {
-      console.log('Authorized callback:', auth);
       return !!auth;
     },
     async jwt({ token, user }) {
@@ -76,7 +75,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         // If the token is still valid, return it as is
         return token;
       } else {
-        console.log('Token expired, refreshing...', token.expires_at);
         if (!token.refresh_token) {
           // If no refresh token is available, throw an error
           throw new TypeError('Missing refresh_token');
@@ -105,7 +103,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             iat: number;
             exp: number;
           } = JSON.parse(atob(newToken.accessToken.split('.')[1]));
-          console.log('New access token payload:', newAccessTokenPayload);
           // Update the token with new access and refresh tokens
           return {
             ...token,

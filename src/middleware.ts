@@ -6,8 +6,10 @@ export default auth((req) => {
   const allowedPaths = [
     '/',
     '/login',
-    '/signup',
+    '/register',
     '/profile',
+    '/reservation',
+    '/hospital/**',
     '/search/pharmacy',
     '/search/hospital/list',
     '/search/hospital/**',
