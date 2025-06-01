@@ -65,4 +65,14 @@
   --fa-secondary-color: var(--color-blue-900);
 }
 
-/*# sourceMappingURL=page.module.css.map */
+.symptomCard {
+  flex-shrink: 0;
+  padding: 1rem;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-gray-200);
+}
+
+/*# sourceMappingURL=Suggestion.module.css.map */
