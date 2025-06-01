@@ -35,6 +35,19 @@
   transition-duration: 0.25s;
   transition-timing-function: ease-out;
 
+  > div {
+    > h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--color-gray-800);
+    }
+    > p {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--color-gray-500);
+    }
+  }
+
   &.active {
     max-height: 50%;
     padding: 1rem;
