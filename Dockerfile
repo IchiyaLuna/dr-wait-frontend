@@ -1,8 +1,7 @@
 #───────────────────────────────────────────────────────────────────
-# 1) keymetrics/pm2 알파인 이미지를 베이스로 사용
-#    (Node.js + PM2가 이미 설치된 경량 이미지)
+# 1) upshow/pm2:node22 이미지를 베이스로 사용
 #───────────────────────────────────────────────────────────────────
-FROM keymetrics/pm2:latest-alpine
+FROM upshow/pm2:node22
 
 # 작업 디렉토리를 /app 으로 설정
 WORKDIR /app
@@ -10,9 +9,8 @@ WORKDIR /app
 #───────────────────────────────────────────────────────────────────
 # 2) pnpm 활성화 & 의존성 설치
 #───────────────────────────────────────────────────────────────────
-# - pnpm을 사용하기 위해 Corepack 활성화 후 pnpm@latest 설치
-RUN corepack enable && \
-    corepack prepare pnpm@10.11.0 --activate
+#    keymetrics/pm2:latest-alpine에는 corepack이 없으므로, npm을 통해 pnpm을 설치합니다.
+RUN npm install -g pnpm@10.11.0
 
 # 패키지 잠금 파일(pnpm-lock.yaml)과 package.json만 먼저 복사
 COPY package.json pnpm-lock.yaml ./

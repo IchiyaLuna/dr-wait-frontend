@@ -41,3 +41,6 @@ export default async function SearchHospitalListPage() {
     </>
   );
 }
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
