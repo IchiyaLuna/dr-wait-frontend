@@ -1,5 +1,7 @@
 // React
 import React from 'react';
+// Auth.js
+import { useSession } from 'next-auth/react';
 // Components
 import TopBar from '@/components/TopBar';
 import ProfileCard from '@/components/ProfileCard';
@@ -24,7 +26,11 @@ export default function HomePage() {
         <ProfileCard />
         <Row>
           <Column>
+<<<<<<< Updated upstream
             <Link href="/search/hospital" className={styles.link}>
+=======
+            <Link href="/search/hospital/list" className={styles.link}>
+>>>>>>> Stashed changes
               <Card className={styles.bigCard}>
                 <div className={styles.header}>
                   <h3>병원 찾기</h3>
@@ -37,14 +43,16 @@ export default function HomePage() {
             </Link>
           </Column>
           <Column>
-            <Card className={styles.smallCard}>
-              <div className={styles.header}>
-                <h3>진료 기록</h3>
-              </div>
-              <div className={styles.footer}>
-                <i className={`fa-duotone fa-fw fa-files-medical`} />
-              </div>
-            </Card>
+            <Link href={'/reservation'} className={styles.link}>
+              <Card className={styles.smallCard}>
+                <div className={styles.header}>
+                  <h3>진료 기록</h3>
+                </div>
+                <div className={styles.footer}>
+                  <i className={`fa-duotone fa-fw fa-files-medical`} />
+                </div>
+              </Card>
+            </Link>
             <Link href="/search/pharmacy" className={styles.link}>
               <Card className={styles.smallCard}>
                 <div className={styles.header}>
