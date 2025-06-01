@@ -24,7 +24,7 @@ export default function HomePage() {
         <ProfileCard />
         <Row>
           <Column>
-            <Link href="/hospital/123" className={styles.link}>
+            <Link href="/search/hospital" className={styles.link}>
               <Card className={styles.bigCard}>
                 <div className={styles.header}>
                   <h3>병원 찾기</h3>

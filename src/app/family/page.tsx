@@ -1,5 +1,6 @@
 import React from 'react';
 import { User, Plus } from 'lucide-react';
+import Link from 'next/link';
 
 export default function FamilyPage() {
   const invitedUser = {
@@ -27,9 +28,9 @@ export default function FamilyPage() {
           <span className="mt-2 text-sm font-medium">최성하</span>
         </div>
         <div className="flex flex-col items-center">
-          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
+          <Link href="/invite" className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
             <Plus />
-          </div>
+          </Link>
           <span className="mt-2 text-sm text-gray-500">가족계정 초대</span>
         </div>
       </div>
