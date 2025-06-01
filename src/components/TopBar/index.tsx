@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 // Styles
 import styles from './index.module.scss';
+import Link from 'next/link';
 // Props
 type Props = {
   title?: string;
@@ -16,7 +17,7 @@ export default function TopBar({ title, type = 'LOGO' }: Props) {
   return (
     <div className={styles.wrapper}>
       {type === 'LOGO' ? (
-        <div>
+        <Link href={'/'}>
           {title ? (
             title
           ) : (
@@ -24,7 +25,7 @@ export default function TopBar({ title, type = 'LOGO' }: Props) {
               Dr.Wait<sup>+</sup>
             </span>
           )}
-        </div>
+        </Link>
       ) : null}
       {type === 'BACK' ? (
         <div>
@@ -35,15 +36,14 @@ export default function TopBar({ title, type = 'LOGO' }: Props) {
               router.back();
             }}
           >
-            <i className={`fa-fw fa-regular fa-chevron-left`} />
+            <i className={`fa-fw fa-light fa-chevron-left`} />
           </button>
         </div>
       ) : null}
-      {type === 'LOGO' ? (
-        <div>
-          <i className="fa-solid fa-bars"></i>
-        </div>
-      ) : null}
+      <div className={styles.title}>
+        {title ? <span className={styles.title}>{title}</span> : null}
+      </div>
+      <div>{type === 'LOGO' ? null : null}</div>
     </div>
   );
 }
