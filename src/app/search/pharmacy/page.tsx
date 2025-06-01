@@ -15,6 +15,7 @@ export default function PharmacyPage() {
   // Hooks
   const { location } = useGeolocation();
   // Refs
+  const initializedRef = useRef(false);
   const mapEl = useRef<HTMLDivElement>(null);
   // States
   const [map, setMap] = useState<kakao.maps.Map | undefined>(undefined);
@@ -52,8 +53,9 @@ export default function PharmacyPage() {
   useEffect(() => {
     const { kakao } = window;
     if (!kakao) return;
-    if (map) return; // If map is already built, skip
-    console.log('building map...');
+    if (map) return;
+    if (initializedRef.current) return;
+    initializedRef.current = true;
     // Load map
     kakao.maps.load(() => {
       if (!mapEl.current) return;
