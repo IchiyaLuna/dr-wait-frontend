@@ -1,252 +1,225 @@
 'use client';
 // React
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useActionState } from 'react';
+// Next.js
+import { useRouter } from 'next/navigation';
+// Motion
+import { motion } from 'motion/react';
 // Components
 import TopBar from '@/components/TopBar';
-import TabBar from '@/components/TabBar';
+// Actions
+import { signup, stateType } from './actions';
 // Styles
 import styles from './page.module.scss';
-
-// 하드코딩된 샘플 사용자 정보
-// const User = {
-//   userId: 'abc',
-//   password: 'System2000!!',
-// };
-
+// initialState
+const initialState: stateType = {
+  message: null,
+};
+// Page
 export default function RegisterPage() {
-  // 입력 상태
-  const [username, setUsername] = useState('');
-  const [id, setId] = useState('');
-  const [password, setPassword] = useState('');
+  // Router
+  const router = useRouter();
+  // Refs
+  const rrnFrontRef = useRef<HTMLInputElement>(null);
+  const rrnBackRef = useRef<HTMLInputElement>(null);
+  const usernameRef = useRef<HTMLInputElement>(null);
+  // actionStates
+  const [state, dispatch, isPending] = useActionState(signup, initialState);
+  // States
+  const [step, setStep] = useState(1);
+  const [fullname, setFullname] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [residentRegistrationNumber, setResidentRegistrationNumber] =
-    useState('');
-
-  // 유효성 상태
-  const [usernameValid, setUsernameValid] = useState(false);
-  const [idValid, setIdValid] = useState(false);
-  const [passwordValid, setPasswordValid] = useState(false);
-  const [phoneValid, setPhoneValid] = useState(false);
-  const [residentValid, setResidentValid] = useState(false);
-  const [notAllow, setNotAllow] = useState(true);
-  const [errorMsg, setErrorMsg] = useState('');
-
-  // 핸들러들
-  const handleUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
-    setUsername(val);
-    setUsernameValid(val.trim().length > 0);
-  };
-
-  const handleId = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
-    setId(val);
-    setIdValid(val.trim().length > 0);
-  };
-
-  const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
-    setPassword(val);
-    const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$`~!@$!%*#^?&()\-_=+]).{8,20}$/;
-    setPasswordValid(regex.test(val));
-  };
-
-  const handlePhoneNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
-    setPhoneNumber(val);
-    const regex = /^\d{10,11}$/;
-    setPhoneValid(regex.test(val));
-  };
-
-  const handleResidentRegistrationNumber = (
-    e: React.ChangeEvent<HTMLInputElement>
+  const [rrnFront, setRRNFront] = useState('');
+  const [rrnBack, setRRNBack] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  // Flags
+  const isNextButtonDisabled =
+    fullname.length > 0 &&
+    phoneNumber.length === 11 &&
+    rrnFront.length === 6 &&
+    rrnBack.length === 7;
+  const isSubmitButtonDisabled = !username || !password || isPending;
+  // Functions
+  const handleNumberOnlyInput = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    length: number
   ) => {
-    const val = e.target.value;
-    setResidentRegistrationNumber(val);
-    const regex = /^\d{6}-?\d{7}$/;
-    setResidentValid(regex.test(val));
-  };
-
-  // 회원가입 시도
-  const onClickSignUp = () => {
-    if (
-      usernameValid &&
-      idValid &&
-      passwordValid &&
-      phoneValid &&
-      residentValid
-    ) {
-      alert('회원가입이 완료되었습니다.');
-    } else {
-      setErrorMsg('모든 항목을 올바르게 입력해주세요.');
+    const originalValue = e.target.value;
+    let onlyNumbers = originalValue.replace(/\D/g, '');
+    if (onlyNumbers.length > length) {
+      onlyNumbers = onlyNumbers.slice(0, length);
     }
+    return onlyNumbers;
   };
-
-  // 유효성 체크에 따라 버튼 활성화
+  const handleLowerAlphaNumInput = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    length: number
+  ) => {
+    const originalValue = e.target.value;
+    let onlyLowerAlphaNum = originalValue
+      .replace(/[^a-z0-9]/gi, '')
+      .toLowerCase();
+    if (onlyLowerAlphaNum.length > length) {
+      onlyLowerAlphaNum = onlyLowerAlphaNum.slice(0, length);
+    }
+    return onlyLowerAlphaNum;
+  };
+  const handlePasswordInput = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    length: number
+  ) => {
+    const originalValue = e.target.value;
+    let password = originalValue.replace(/[^A-Za-z0-9!#$%&*+\-.:?@^_~]/g, '');
+    if (password.length > length) {
+      password = password.slice(0, length);
+    }
+    return password;
+  };
+  // Effects
   useEffect(() => {
-    setErrorMsg('');
-    if (
-      usernameValid &&
-      idValid &&
-      passwordValid &&
-      phoneValid &&
-      residentValid
-    ) {
-      setNotAllow(false);
-    } else {
-      setNotAllow(true);
+    if (phoneNumber.length === 11 && rrnFrontRef.current) {
+      rrnFrontRef.current.focus();
     }
-  }, [usernameValid, idValid, passwordValid, phoneValid, residentValid]);
-
+  }, [phoneNumber]);
+  useEffect(() => {
+    if (rrnFront.length === 6 && rrnBackRef.current) {
+      rrnBackRef.current.focus();
+    }
+  }, [rrnFront]);
+  useEffect(() => {
+    if (rrnBack.length === 7 && usernameRef.current) {
+      usernameRef.current.focus();
+    }
+  }, [rrnBack]);
+  useEffect(() => {
+    if (state && state.message === 'success') {
+      router.push('/login');
+    }
+  }, [state, router]);
+  // Render
+  console.log('rerender RegisterPage');
   return (
     <>
-      <TopBar type={'LOGO'} />
-      <main className={`${styles.main} flex flex-col overflow-x-visible`}>
-        {/* 헤더 영역 */}
-        <div className="flex items-center justify-between px-4 pt-4">
-          <h1 className="text-2xl font-semibold text-gray-800">회원가입</h1>
-          <button className="text-3xl text-gray-600 leading-none">
-            &times;
-          </button>
-        </div>
+      <TopBar type={'BACK'} title={'회원가입'} />
+      <main className={styles.main}>
+        <form action={dispatch} className={styles.form}>
+          <input type={'hidden'} name={'fullname'} value={fullname} />
+          <input type={'hidden'} name={'phoneNumber'} value={phoneNumber} />
+          <input type={'hidden'} name={'rrnFront'} value={rrnFront} />
+          <input type={'hidden'} name={'rrnBack'} value={rrnBack} />
 
-        {/* 입력 폼 */}
-        <div className="flex-grow px-4 pt-6">
-          {/* 이름 */}
-          <div className="mb-4">
-            <label
-              htmlFor="username"
-              className="block text-sm text-gray-600 mb-1"
-            >
-              이름
-            </label>
-            <input
-              id="username"
-              name="username"
-              type="text"
-              value={username}
-              onChange={handleUsername}
-              placeholder="이름을 입력하세요"
-              className="w-full border-b border-gray-300 py-2 text-lg focus:outline-none focus:border-gray-500"
-            />
-            {!usernameValid && username.length > 0 && (
-              <p className="text-red-500 text-sm mt-1">이름을 입력해주세요.</p>
-            )}{' '}
-          </div>
-
-          {/* 아이디 */}
-          <div className="mb-4">
-            <label htmlFor="id" className="block text-sm text-gray-600 mb-1">
-              아이디
-            </label>
-            <input
-              id="id"
-              name="id"
-              type="text"
-              value={id}
-              onChange={handleId}
-              placeholder="아이디를 입력하세요"
-              className="w-full border-b border-gray-300 py-2 text-lg focus:outline-none focus:border-gray-500"
-            />
-            {!idValid && id.length > 0 && (
-              <p className="text-red-500 text-sm mt-1">
-                아이디를 입력해주세요.
-              </p>
+          <div className={styles.inputs}>
+            {step === 1 && (
+              <>
+                <label htmlFor={'fullname'}>이름</label>
+                <input
+                  id={'fullname'}
+                  type={'text'}
+                  value={fullname}
+                  maxLength={10}
+                  onChange={(e) => setFullname(e.target.value)}
+                  placeholder={'이름을 입력하세요'}
+                />
+              </>
+            )}
+            {step === 1 && fullname.length > 0 && (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                <label htmlFor={'phoneNumber'}>휴대폰 번호</label>
+                <input
+                  id={'phoneNumber'}
+                  type={'tel'}
+                  value={phoneNumber}
+                  maxLength={11}
+                  inputMode={'numeric'}
+                  onChange={(e) => setPhoneNumber(handleNumberOnlyInput(e, 11))}
+                  placeholder={"'-' 없이 숫자만 입력하세요"}
+                />
+              </motion.div>
+            )}
+            {step === 1 && phoneNumber.length === 11 && (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                <label htmlFor={'rrnFront'}>주민등록번호</label>
+                <div className={styles.inputRow}>
+                  <input
+                    ref={rrnFrontRef}
+                    id={'rrnFront'}
+                    type={'text'}
+                    value={rrnFront}
+                    maxLength={6}
+                    inputMode={'numeric'}
+                    onChange={(e) => setRRNFront(handleNumberOnlyInput(e, 6))}
+                    placeholder={'앞 6자리를 입력하세요'}
+                  />
+                  <span>-</span>
+                  <input
+                    ref={rrnBackRef}
+                    id={'rrnBack'}
+                    type={'password'}
+                    value={rrnBack}
+                    maxLength={7}
+                    inputMode={'numeric'}
+                    onChange={(e) => setRRNBack(handleNumberOnlyInput(e, 7))}
+                    placeholder={'뒤 7자리를 입력하세요'}
+                  />
+                </div>
+              </motion.div>
+            )}
+            {step === 2 && (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                <label htmlFor={'username'}>아이디</label>
+                <input
+                  ref={usernameRef}
+                  id={'username'}
+                  type={'text'}
+                  name={'username'}
+                  value={username}
+                  maxLength={50}
+                  onChange={(e) => setUsername(handleLowerAlphaNumInput(e, 50))}
+                  placeholder={'영문 소문자와 숫자만 입력하세요'}
+                />
+              </motion.div>
+            )}
+            {step === 2 && username.length > 0 && (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                <label htmlFor={'password'}>비밀번호</label>
+                <input
+                  id={'password'}
+                  type={'password'}
+                  name={'password'}
+                  value={password}
+                  maxLength={50}
+                  onChange={(e) => setPassword(handlePasswordInput(e, 100))}
+                  placeholder={'비밀번호를 입력하세요'}
+                />
+              </motion.div>
+            )}
+            {step === 2 && state?.message && state.message !== 'success' && (
+              <span className={styles.error}>{state.message}</span>
             )}
           </div>
 
-          {/* 비밀번호 */}
-          <div className="mb-4">
-            <label
-              htmlFor="password"
-              className="block text-sm text-gray-600 mb-1"
+          {step === 1 && (
+            <button
+              type={'button'}
+              className={styles.submit}
+              disabled={isNextButtonDisabled}
+              onClick={() => setStep(2)}
             >
-              비밀번호
-            </label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              value={password}
-              onChange={handlePassword}
-              placeholder="비밀번호를 입력하세요"
-              className="w-full border-b border-gray-300 py-2 text-lg focus:outline-none focus:border-gray-500"
-            />
-            {!passwordValid && password.length > 0 && (
-              <p className="text-red-500 text-sm mt-1">
-                영문, 숫자, 특수문자 포함 8자 이상 입력해주세요.
-              </p>
-            )}
-          </div>
-
-          {/* 전화번호 */}
-          <div className="mb-4">
-            <label
-              htmlFor="phone_number"
-              className="block text-sm text-gray-600 mb-1"
-            >
-              전화번호
-            </label>
-            <input
-              id="phone_number"
-              name="phone_number"
-              type="number"
-              value={phoneNumber}
-              onChange={handlePhoneNumber}
-              placeholder="전화번호를 입력하세요"
-              className="w-full border-b border-gray-300 py-2 text-lg focus:outline-none focus:border-gray-500"
-            />
-            {!phoneValid && phoneNumber.length > 0 && (
-              <p className="text-red-500 text-sm mt-1">
-                전화번호를 입력해주세요.
-              </p>
-            )}
-          </div>
-
-          {/* 주민등록번호 */}
-          <div className="mb-4">
-            <label
-              htmlFor="resident_registration_number"
-              className="block text-sm text-gray-600 mb-1"
-            >
-              주민등록번호
-            </label>
-            <input
-              id="resident_registration_number"
-              name="resident_registration_number"
-              type="number"
-              value={residentRegistrationNumber}
-              onChange={handleResidentRegistrationNumber}
-              placeholder="주민등록번호를 입력하세요"
-              className="w-full border-b border-gray-300 py-2 text-lg focus:outline-none focus:border-gray-500"
-            />
-            {!residentValid && residentRegistrationNumber.length > 0 && (
-              <p className="text-red-500 text-sm mt-1">
-                주민등록번호를 입력해주세요.
-              </p>
-            )}
-          </div>
-        </div>
-
-        {/* 회원가입 버튼 및 에러 메시지 */}
-        <div className="px-4 pb-6 pt-4">
-          <button
-            onClick={onClickSignUp}
-            disabled={notAllow}
-            className={`w-full py-4 rounded-2xl font-medium text-center ${
-              notAllow
-                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                : 'bg-yellow-400 text-gray-800'
-            }`}
-          >
-            회원가입하기
-          </button>
-          {errorMsg && (
-            <p className="text-center text-red-500 mt-2">{errorMsg}</p>
+              다음
+            </button>
           )}
-        </div>
+          {step === 2 && (
+            <button
+              type={'submit'}
+              className={styles.submit}
+              disabled={isSubmitButtonDisabled}
+            >
+              회원가입하기
+            </button>
+          )}
+        </form>
       </main>
-      <TabBar />
     </>
   );
 }
