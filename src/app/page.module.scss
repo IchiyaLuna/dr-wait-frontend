@@ -75,3 +75,13 @@
     }
   }
 }
+
+.symptomCard {
+  flex-shrink: 0;
+  padding: 1rem;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-gray-200);
+}

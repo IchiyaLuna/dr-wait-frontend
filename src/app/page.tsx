@@ -1,7 +1,6 @@
 // React
 import React from 'react';
-// Auth.js
-import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 // Components
 import TopBar from '@/components/TopBar';
 import ProfileCard from '@/components/ProfileCard';
@@ -14,11 +13,31 @@ import DepartmentCard from '@/components/DepartmentCard';
 import TabBar from '@/components/TabBar';
 // Data
 import { departments } from '@/data/departments';
+// Types
+import { Symptom } from '@/types/symptom';
 // Styles
 import styles from './page.module.scss';
-import Link from 'next/link';
 // Page
-export default function HomePage() {
+export default async function HomePage() {
+  const symptoms: Symptom[] = await fetch(
+    `${process.env.BACKEND_URL}/api/symptom/names`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  )
+    .then((res) => res.json())
+    .catch(() => null);
+  const filteredSymptoms: Symptom[] = symptoms
+    ? symptoms.reduce((acc: Symptom[], symptom) => {
+        if (acc.some((s) => s.name === symptom.name)) {
+          return acc;
+        } else {
+          return [...acc, symptom];
+        }
+      }, [])
+    : [];
   return (
     <>
       <TopBar type={'LOGO'} />
@@ -63,22 +82,37 @@ export default function HomePage() {
             </Link>
           </Column>
         </Row>
-        <Row>
-          <Card>동네 인기 병원 🔥</Card>
-          <Card>지금 문연 병원 🛋️</Card>
-        </Row>
-        {/* search */}
         <SectionTitle>🏥 진료과로 병원 찾기</SectionTitle>
         <RowScroll>
           {departments.map((department) => (
-            <DepartmentCard
+            <Link
               key={department.id}
-              name={department.name}
-              icon={department.icon}
-              color={department.color}
-            />
+              href={`/search/hospital/department/${department.name}?category=${encodeURIComponent(department.category)}`}
+            >
+              <DepartmentCard
+                name={department.name}
+                icon={department.icon}
+                color={department.color}
+              />
+            </Link>
           ))}
         </RowScroll>
+        {filteredSymptoms.length > 0 ? (
+          <>
+            <SectionTitle>📋 증상으로 병원 찾기</SectionTitle>
+            <RowScroll>
+              {filteredSymptoms.map((symptom) => (
+                <Link
+                  key={symptom.id}
+                  href={`/search/hospital/symptom/${symptom.name}`}
+                  className={styles.symptomCard}
+                >
+                  <div>{symptom.name}</div>
+                </Link>
+              ))}
+            </RowScroll>
+          </>
+        ) : null}
       </main>
       <TabBar />
     </>
