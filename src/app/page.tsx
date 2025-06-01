@@ -26,11 +26,7 @@ export default function HomePage() {
         <ProfileCard />
         <Row>
           <Column>
-<<<<<<< Updated upstream
-            <Link href="/search/hospital" className={styles.link}>
-=======
             <Link href="/search/hospital/list" className={styles.link}>
->>>>>>> Stashed changes
               <Card className={styles.bigCard}>
                 <div className={styles.header}>
                   <h3>병원 찾기</h3>
