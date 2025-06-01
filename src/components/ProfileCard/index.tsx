@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { getToken } from '@auth/core/jwt';
 // Styles
 import styles from './index.module.scss';
+import { User } from '@/types/user';
+import { Reservation } from '@/types/reservation';
 // Props
 type Props = {
   title?: string;
@@ -12,8 +14,8 @@ type Props = {
 // Component
 export default async function ProfileCard({}: Props) {
   const session = await auth();
-
-  const data = session
+  // Fetch user data
+  const data: User | null = session
     ? await fetch(`${process.env.BACKEND_URL}/api/user/info`, {
         headers: {
           'Content-Type': 'application/json',
@@ -23,14 +25,43 @@ export default async function ProfileCard({}: Props) {
         .then((res) => res.json())
         .catch(() => null)
     : null;
+  // Fetch  data
+  const reservations: Reservation[] = session
+    ? await fetch(`${process.env.BACKEND_URL}/api/reservation/my_reservation`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${session.token.access_token}`,
+        },
+      })
+        .then((res) => res.json())
+        .catch(() => null)
+    : null;
+  const filteredReservations = reservations
+    ? reservations.filter((reservation) => reservation.completed)
+    : null;
+  const reservation = filteredReservations
+    ? filteredReservations.sort((a, b) =>
+        a.reservationTime > b.reservationTime ? -1 : 1
+      )[0]
+    : null;
+  console.log('ProfileCard reservation:', reservation);
   // Render
   return (
     <Card className={styles.profileCard}>
       {session && data ? (
         <div className={styles.memberWrapper}>
-          <div className="text-2xl mb-2">안녕하세요 {data.fullname}님</div>
-          <div>마지막 진료: 아직 없음</div>
-          <div>접수중인 진료가 없습니다</div>
+          <div>
+            <i className={`fa-fw fa-light fa-user`} />
+            <div>
+              <h2>{data.fullname}님, 안녕하세요</h2>
+            </div>
+            {reservation ? (
+              <span>
+                마지막 진료{' '}
+                {new Date(reservation.reservationTime).toLocaleString()}
+              </span>
+            ) : null}
+          </div>
         </div>
       ) : (
         <div className={styles.guestWrapper}>
