@@ -9,9 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@auth/core": "^0.39.1",
     "@types/kakaomaps": "^1.1.5",
     "lodash": "^4.17.21",
     "lucide-react": "^0.511.0",
+    "motion": "^12.15.0",
     "next": "15.3.2",
     "next-auth": "5.0.0-beta.28",
     "react": "^19.0.0",
