@@ -51,6 +51,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   callbacks: {
+    authorized: async ({ auth }) => {
+      console.log('Authorized callback:', auth);
+      return !!auth;
+    },
     async jwt({ token, user }) {
       if (user) {
         // First time the JWT callback is called, user object is available
@@ -63,6 +67,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         // Set the token properties
         return {
           ...token,
+          id: accessTokenPayload.sub,
           access_token: user.accessToken,
           refresh_token: user.refreshToken,
           expires_at: accessTokenPayload.exp,
@@ -104,6 +109,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           // Update the token with new access and refresh tokens
           return {
             ...token,
+            id: newAccessTokenPayload.sub,
             access_token: newToken.accessToken,
             refresh_token: newToken.refreshToken,
             expires_at: newAccessTokenPayload.exp,
