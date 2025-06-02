@@ -34,20 +34,21 @@ export default async function ReservationSuggestionPage() {
       )
     : null;
   // Fetch category data
-  const categories: { category: string[] } = session
-    ? await fetch(
-        `${process.env.BACKEND_URL}/api/recommend?waitingTime=${filteredReservations ? filteredReservations[0].waitingTime : 0}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${session.token.access_token}`,
-          },
-        }
-      )
-        .then((res) => res.json())
-        .catch(() => null)
-    : { category: [] };
+  const categories: { category: string[] } =
+    session && filteredReservations
+      ? await fetch(
+          `${process.env.BACKEND_URL}/api/recommend?waitingTime=${filteredReservations ? filteredReservations[0].waitingTime : 0}`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${session.token.access_token}`,
+            },
+          }
+        )
+          .then((res) => res.json())
+          .catch(() => null)
+      : { category: [] };
 
   // Render
   return (
