@@ -85,3 +85,28 @@
   justify-content: center;
   background-color: var(--color-gray-200);
 }
+
+.notFoundCard {
+  padding: 2rem 3rem !important;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-direction: column;
+  > h1 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-gray-700);
+  }
+
+  > a {
+    padding: 1rem;
+    border-radius: 0.75rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    color: var(--color-white);
+    background-color: var(--color-blue-900);
+  }
+}
