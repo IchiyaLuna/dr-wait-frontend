@@ -35,7 +35,7 @@ export default async function ReservationSuggestionPage() {
     : null;
   // Fetch category data
   const categories: { category: string[] } =
-    session && filteredReservations
+    session && filteredReservations && filteredReservations.length
       ? await fetch(
           `${process.env.BACKEND_URL}/api/recommend?waitingTime=${filteredReservations ? filteredReservations[0].waitingTime : 0}`,
           {
