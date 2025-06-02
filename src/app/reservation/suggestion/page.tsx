@@ -67,3 +67,5 @@ export default async function ReservationSuggestionPage() {
     </>
   );
 }
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
